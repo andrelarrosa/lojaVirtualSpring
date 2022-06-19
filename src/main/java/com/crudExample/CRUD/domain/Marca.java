@@ -15,24 +15,16 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name = "usuario")
+@Table(name = "marca")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @Getter
 @Setter
-public class Usuario {
-private static final long serialVersionUID = 4048798961366546485L;
-	
+public class Marca {
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue
 	private long id;
 	
 	@NotBlank
-	@Schema(description = "Nome do usuário",example = "André Luiz Gonçalves Larrosa",required = true)
-	private String nome;
-	
-	@Schema(description = "CPF do usuário",example = "124.968.929-50",required = true)
-	private String cpf;
-	private String login;
-	private String senha;
-	
+	@Schema(description = "Descrição da marca",example = "Adidas",required = true)
+	private String descricao;
 }

@@ -39,7 +39,7 @@ public class UsuarioService {
 	
 	public Usuario save(Usuario usuario) throws BadResourceException, ResourceAlreadyExistsException{
 		if(!StringUtils.isEmpty(usuario.getNome())) {
-			if(usuario.getId() != null && existsbyId(usuario.getId())) {
+			if(usuario.getId() != 0 && existsbyId(usuario.getId())) {
 				throw new ResourceAlreadyExistsException("Usuário com o id: "+usuario.getId()+"\n já existe");
 			}
 			return usuarioRepository.save(usuario);
