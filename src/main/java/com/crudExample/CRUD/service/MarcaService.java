@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import com.crudExample.CRUD.domain.Marca;
-import com.crudExample.CRUD.domain.Produto;
 import com.crudExample.CRUD.exception.BadResourceException;
 import com.crudExample.CRUD.exception.ResourceAlreadyExistsException;
 import com.crudExample.CRUD.exception.ResourceNotFoundException;
@@ -57,7 +56,7 @@ public class MarcaService {
 	
 	public void deleteById(Long id) throws ResourceNotFoundException{
 		if(!existsbyId(id)) {
-			throw new ResourceNotFoundException("Produto não encontrado com o id: "+id);
+			throw new ResourceNotFoundException("Marca não encontrado com o id: "+id);
 		}else {
 			marcaRepository.deleteById(id);
 		}

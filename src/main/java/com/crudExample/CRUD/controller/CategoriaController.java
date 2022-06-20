@@ -23,11 +23,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.crudExample.CRUD.domain.Categoria;
 import com.crudExample.CRUD.domain.Marca;
 import com.crudExample.CRUD.exception.BadResourceException;
 import com.crudExample.CRUD.exception.ResourceAlreadyExistsException;
 import com.crudExample.CRUD.exception.ResourceNotFoundException;
-import com.crudExample.CRUD.service.MarcaService;
+import com.crudExample.CRUD.service.CategoriaService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -36,23 +37,23 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @RequestMapping("/api")
-@Tag(name="marca", description="Api De Marca")
-public class MarcaController {
+@Tag(name="categoria", description="Api De Categoria")
+public class CategoriaController {
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	@Autowired
-	private MarcaService marcaService;
+	private CategoriaService categoriaService;
 	
-	@GetMapping(value="/marca")
-	public ResponseEntity<Page<Marca>> findAll(Pageable pageable){
-		return ResponseEntity.ok(marcaService.findAll(pageable));
+	@GetMapping(value="/categoria")
+	public ResponseEntity<Page<Categoria>> findAll(Pageable pageable){
+		return ResponseEntity.ok(categoriaService.findAll(pageable));
 	}
 	
-	@PostMapping(value="/marca")
-	public ResponseEntity<Marca> addProduto(@RequestBody Marca marca) throws URISyntaxException{
+	@PostMapping(value="/categoria")
+	public ResponseEntity<Categoria> addProduto(@RequestBody Categoria categoria) throws URISyntaxException{
 		try {
-			Marca m = marcaService.save(marca);
-			return ResponseEntity.created(new URI("/api/marca/"+m.getId())).body(marca);
+			Categoria c = categoriaService.save(categoria);
+			return ResponseEntity.created(new URI("/api/categoria/"+c.getId())).body(categoria);
 		}catch(ResourceAlreadyExistsException ex) {
 			logger.error(ex.getMessage());
 			return ResponseEntity.status(HttpStatus.CONFLICT).build();
@@ -62,11 +63,11 @@ public class MarcaController {
 		}
 	}
 	
-	@PutMapping(value="/marca/{id}")
-	public ResponseEntity<Marca> updateProduto(@Valid @RequestBody Marca marca, @PathVariable long id) throws BadResourceException{
+	@PutMapping(value="/categoria/{id}")
+	public ResponseEntity<Categoria> updateProduto(@Valid @RequestBody Categoria categoria, @PathVariable long id) throws BadResourceException{
 		try {
-			marca.setId(id);
-			marcaService.update(marca);
+			categoria.setId(id);
+			categoriaService.update(categoria);
 			return ResponseEntity.ok().build();
 		}catch(ResourceNotFoundException ex) {
 			logger.error(ex.getMessage());
@@ -77,15 +78,14 @@ public class MarcaController {
 		}
 	}
 	
-	@DeleteMapping(path="/marca/{id}")
-	public ResponseEntity<Marca> deleteProdutoById(@PathVariable long id){
+	@DeleteMapping(path="/categoria/{id}")
+	public ResponseEntity<Categoria> deleteProdutoById(@PathVariable long id){
 		try {
-			marcaService.deleteById(id);
+			categoriaService.deleteById(id);
 			return ResponseEntity.ok().build();
 		}catch(ResourceNotFoundException ex) {
 			logger.error(ex.getMessage());
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, ex.getMessage(), ex);
 		}
 	}
-
 }
