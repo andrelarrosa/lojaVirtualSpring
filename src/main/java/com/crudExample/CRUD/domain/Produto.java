@@ -6,12 +6,15 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.ManyToAny;
 
 
 @Entity
@@ -30,6 +33,13 @@ public class Produto {
 	private String nome;
 	
 	private double precoVenda;
+	private double valorCusto;
 	private double quantidadeEstoque;
+	@ManyToOne
+	@JoinColumn(name="idMarca")
+	private Marca marca;
+	@ManyToOne
+	@JoinColumn(name="idCategoria")
+	private Categoria categoria;
 	
 }

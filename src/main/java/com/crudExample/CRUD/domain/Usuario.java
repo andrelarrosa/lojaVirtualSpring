@@ -32,7 +32,7 @@ private static final long serialVersionUID = 4048798961366546485L;
 	
 	@Schema(description = "CPF do usuário",example = "124.968.929-50",required = true)
 	private String cpf;
-	private String login;
+	private String email;
 	private String senha;
 	
 }

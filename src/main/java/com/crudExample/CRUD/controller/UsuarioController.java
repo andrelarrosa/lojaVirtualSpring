@@ -12,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.MessageDigestPasswordEncoder;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,6 +39,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 
+
 @RestController
 @RequestMapping("/api")
 @Tag(name="usuario", description="Api De Usuário")
@@ -46,6 +48,8 @@ public class UsuarioController {
 	
 	@Autowired
 	private UsuarioService usuarioService;
+	
+	private MessageDigestPasswordEncoder encoder;
 
 	@Operation(summary="Lista os Usuarios", description="Lista todos os usuários", tags={"usuario"})
 	@ApiResponses(value= {@ApiResponse(responseCode = "200", description = "Registros encontrados"), @ApiResponse(responseCode = "500", description="Entre em contato com o suporte")})
@@ -59,6 +63,7 @@ public class UsuarioController {
 	@PostMapping(value="/usuario")
 	public ResponseEntity<Usuario> addUsuario(@RequestBody Usuario usuario) throws URISyntaxException{
 		try {
+			usuario.setSenha(enco);
 			Usuario u = usuarioService.save(usuario);
 			return ResponseEntity.created(new URI("/api/usuario/"+u.getId())).body(usuario);
 		}catch(ResourceAlreadyExistsException ex) {
