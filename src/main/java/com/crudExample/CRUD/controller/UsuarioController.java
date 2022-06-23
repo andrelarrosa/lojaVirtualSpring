@@ -26,6 +26,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.crudExample.CRUD.domain.Produto;
 import com.crudExample.CRUD.domain.Usuario;
+import com.crudExample.CRUD.dto.UsuarioDTO;
 import com.crudExample.CRUD.exception.BadResourceException;
 import com.crudExample.CRUD.exception.ResourceAlreadyExistsException;
 import com.crudExample.CRUD.exception.ResourceNotFoundException;
@@ -49,23 +50,20 @@ public class UsuarioController {
 	@Autowired
 	private UsuarioService usuarioService;
 	
-	private MessageDigestPasswordEncoder encoder;
-
 	@Operation(summary="Lista os Usuarios", description="Lista todos os usuários", tags={"usuario"})
 	@ApiResponses(value= {@ApiResponse(responseCode = "200", description = "Registros encontrados"), @ApiResponse(responseCode = "500", description="Entre em contato com o suporte")})
 	@GetMapping(value="/usuario")
-	public ResponseEntity<Page<Usuario>> findAll(Pageable pageable){
-		return ResponseEntity.ok(usuarioService.findAll(pageable));
+	public ResponseEntity<Page<UsuarioDTO>> findAll(Pageable pageable){
+		return ResponseEntity.ok(new UsuarioDTO().converterListaUsuarioDTO(usuarioService.findAll(pageable)));
 	}
 	
 	@Operation(summary="Cadastrar Usuário", description="Cadastra o usuario", tags={"usuario"})
 	@ApiResponses(value= {@ApiResponse(responseCode = "200", description = "Cadastrado com sucesso"), @ApiResponse(responseCode = "500", description="Não foi possível de cadastrar este usuário")})
 	@PostMapping(value="/usuario")
-	public ResponseEntity<Usuario> addUsuario(@RequestBody Usuario usuario) throws URISyntaxException{
+	public ResponseEntity<UsuarioDTO> addUsuario(@RequestBody Usuario usuario) throws URISyntaxException{
 		try {
-			usuario.setSenha(enco);
 			Usuario u = usuarioService.save(usuario);
-			return ResponseEntity.created(new URI("/api/usuario/"+u.getId())).body(usuario);
+			return ResponseEntity.created(new URI("/api/usuario/"+u.getId())).body(new UsuarioDTO().converter(usuario));
 		}catch(ResourceAlreadyExistsException ex) {
 			logger.error(ex.getMessage());
 			return ResponseEntity.status(HttpStatus.CONFLICT).build();

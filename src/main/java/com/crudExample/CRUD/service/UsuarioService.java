@@ -3,6 +3,7 @@ package com.crudExample.CRUD.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -39,6 +40,7 @@ public class UsuarioService {
 	
 	public Usuario save(Usuario usuario) throws BadResourceException, ResourceAlreadyExistsException{
 		if(!StringUtils.isEmpty(usuario.getNome())) {
+			usuario.setSenha(new BCryptPasswordEncoder().encode(usuario.getSenha()));
 			if(usuario.getId() != 0 && existsbyId(usuario.getId())) {
 				throw new ResourceAlreadyExistsException("Usuário com o id: "+usuario.getId()+"\n já existe");
 			}
