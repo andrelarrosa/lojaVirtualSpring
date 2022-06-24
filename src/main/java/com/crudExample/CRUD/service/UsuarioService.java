@@ -54,6 +54,7 @@ public class UsuarioService {
 	
 	public void update(Usuario usuario) throws BadResourceException, ResourceNotFoundException{
 		if(!StringUtils.isEmpty(usuario.getNome())) {
+			usuario.setSenha(new BCryptPasswordEncoder().encode(usuario.getSenha()));
 			if(!existsbyId(usuario.getId())) {
 				throw new ResourceNotFoundException("Usuário não encontrado com o id: "+usuario.getId());
 			}

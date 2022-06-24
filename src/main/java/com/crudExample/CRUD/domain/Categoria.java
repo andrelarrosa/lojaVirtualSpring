@@ -19,8 +19,9 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Categoria {
+	private static final long serialVersionUID = 4048798961366546485L;
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private long id;
 	
 	@NotBlank

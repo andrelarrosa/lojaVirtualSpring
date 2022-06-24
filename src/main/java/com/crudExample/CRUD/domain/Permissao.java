@@ -15,17 +15,17 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name = "marca")
+@Table(name = "permissao")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @Getter
 @Setter
-public class Marca {
+public class Permissao {
 	private static final long serialVersionUID = 4048798961366546485L;
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private long id;
 	
 	@NotBlank
-	@Schema(description = "Descrição da marca",example = "Adidas",required = true)
+	@Schema(description = "Descrição da permissão",example = "Adidas",required = true)
 	private String descricao;
 }

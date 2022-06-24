@@ -14,8 +14,9 @@ public class UsuarioDTO {
 	private String email;
 
 	public UsuarioDTO converter (Usuario usuario) {
-		BeanUtils.copyProperties(usuario, this);
-		return this;
+		UsuarioDTO usuarioDTO = new UsuarioDTO(); 
+		BeanUtils.copyProperties(usuario, usuarioDTO);
+		return usuarioDTO;
 	}
 	
 	public Page<UsuarioDTO> converterListaUsuarioDTO(Page<Usuario> pageUsuario){

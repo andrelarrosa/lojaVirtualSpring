@@ -6,6 +6,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import com.crudExample.CRUD.domain.Categoria;
+import com.crudExample.CRUD.domain.Marca;
 import com.crudExample.CRUD.domain.Produto;
 import com.crudExample.CRUD.exception.BadResourceException;
 import com.crudExample.CRUD.exception.ResourceAlreadyExistsException;

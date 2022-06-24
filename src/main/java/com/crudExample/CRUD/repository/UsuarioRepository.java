@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import com.crudExample.CRUD.domain.Usuario;
+import com.crudExample.CRUD.dto.UsuarioDTO;
 
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 	// Page<Produto> findByNome(String nome, Pageable page);

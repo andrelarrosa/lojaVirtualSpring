@@ -1,31 +1,41 @@
 package com.crudExample.CRUD.domain;
 
+import java.sql.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name = "marca")
+@Table(name = "permissao_usario")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @Getter
 @Setter
-public class Marca {
+public class PermissaoUsuario {
 	private static final long serialVersionUID = 4048798961366546485L;
+	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private long id;
 	
-	@NotBlank
-	@Schema(description = "Descrição da marca",example = "Adidas",required = true)
-	private String descricao;
+	private Date dataAtribuicao;
+	@ManyToOne
+	@JoinColumn(name="idPermissao")
+	private Permissao permissao;
+	@ManyToOne
+	@JoinColumn(name="idUsuario")
+	private Usuario usuario;
 }
