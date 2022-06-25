@@ -29,7 +29,7 @@ public class PermissaoUsuario {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private long id;
+	private Long id;
 	
 	private Date dataAtribuicao;
 	@ManyToOne

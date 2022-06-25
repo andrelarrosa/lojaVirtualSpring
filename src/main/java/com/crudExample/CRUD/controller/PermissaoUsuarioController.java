@@ -23,11 +23,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.crudExample.CRUD.domain.Produto;
+import com.crudExample.CRUD.domain.PermissaoUsuario;
 import com.crudExample.CRUD.exception.BadResourceException;
 import com.crudExample.CRUD.exception.ResourceAlreadyExistsException;
 import com.crudExample.CRUD.exception.ResourceNotFoundException;
-import com.crudExample.CRUD.service.ProdutoService;
+import com.crudExample.CRUD.service.PermissaoUsuarioService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -36,27 +36,23 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @RequestMapping("/api")
-@Tag(name="produto", description="Api De Produto")
-public class ProdutoController {
+@Tag(name="permissaoUsuario", description="Api De Permissão do Usuário")
+public class PermissaoUsuarioController {
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	@Autowired
-	private ProdutoService produtoService;
+	private PermissaoUsuarioService permissaoUsuarioService;
 
-	@Operation(summary="Lista os Produtos", description="Lista todos os Produtos", tags={"produto"})
-	@ApiResponses(value= {@ApiResponse(responseCode = "200", description = "Registros encontrados"), @ApiResponse(responseCode = "500", description="Entre em contato com o suporte")})
-	@GetMapping(value="/produto")
-	public ResponseEntity<Page<Produto>> findAll(Pageable pageable){
-		return ResponseEntity.ok(produtoService.findAll(pageable));
+	@GetMapping(value="/permissaoUsuario")
+	public ResponseEntity<Page<PermissaoUsuario>> findAll(Pageable pageable){
+		return ResponseEntity.ok(permissaoUsuarioService.findAll(pageable));
 	}
 
-	@Operation(summary="Cadastrar Produto", description="Cadastra o Produto", tags={"produto"})
-	@ApiResponses(value= {@ApiResponse(responseCode = "201", description = "Cadastrado com sucesso"), @ApiResponse(responseCode = "500", description="Não foi possível de cadastrar este produto")})
-	@PostMapping(value="/produto")
-	public ResponseEntity<Produto> addProduto(@RequestBody Produto produto) throws URISyntaxException{
+	@PostMapping(value="/permissaoUsuario")
+	public ResponseEntity<PermissaoUsuario> addProduto(@RequestBody PermissaoUsuario permissaoUsuario) throws URISyntaxException{
 		try {
-			Produto p = produtoService.save(produto);
-			return ResponseEntity.created(new URI("/api/produto/"+p.getId())).body(produto);
+			PermissaoUsuario p = permissaoUsuarioService.save(permissaoUsuario);
+			return ResponseEntity.created(new URI("/api/produto/"+p.getId())).body(permissaoUsuario);
 		}catch(ResourceAlreadyExistsException ex) {
 			logger.error(ex.getMessage());
 			return ResponseEntity.status(HttpStatus.CONFLICT).build();
@@ -66,13 +62,11 @@ public class ProdutoController {
 		}
 	}
 
-	@Operation(summary="Alterar Produto", description="Altera o produto por id", tags={"produto"})
-	@ApiResponses(value= {@ApiResponse(responseCode = "200", description = "Alterado com sucesso"), @ApiResponse(responseCode = "404", description="Produto não encontrado")})
-	@PutMapping(value="/produto/{id}")
-	public ResponseEntity<Produto> updateProduto(@Valid @RequestBody Produto produto, @PathVariable long id) throws BadResourceException{
+	@PutMapping(value="/permissaoUsuario/{id}")
+	public ResponseEntity<PermissaoUsuario> updateProduto(@Valid @RequestBody PermissaoUsuario permissaoUsuario, @PathVariable long id) throws BadResourceException{
 		try {
-			produto.setId(id);
-			produtoService.update(produto);
+			permissaoUsuario.setId(id);
+			permissaoUsuarioService.update(permissaoUsuario);
 			return ResponseEntity.ok().build();
 		}catch(ResourceNotFoundException ex) {
 			logger.error(ex.getMessage());
@@ -83,12 +77,10 @@ public class ProdutoController {
 		}
 	}
 
-	@Operation(summary="Deletar Produto", description="Deleta o Produto", tags={"produto"})
-	@ApiResponses(value= {@ApiResponse(responseCode = "200", description = "Deletado com sucesso"), @ApiResponse(responseCode = "404", description="Produto não encontrado")})
-	@DeleteMapping(path="/produto/{id}")
-	public ResponseEntity<Produto> deleteProdutoById(@PathVariable long id){
+	@DeleteMapping(path="/permissaoUsuario/{id}")
+	public ResponseEntity<PermissaoUsuario> deleteProdutoById(@PathVariable long id){
 		try {
-			produtoService.deleteById(id);
+			permissaoUsuarioService.deleteById(id);
 			return ResponseEntity.ok().build();
 		}catch(ResourceNotFoundException ex) {
 			logger.error(ex.getMessage());
