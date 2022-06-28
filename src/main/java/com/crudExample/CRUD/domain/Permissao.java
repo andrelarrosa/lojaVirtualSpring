@@ -1,5 +1,7 @@
 package com.crudExample.CRUD.domain;
 
+import java.sql.Timestamp;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -9,6 +11,8 @@ import javax.validation.constraints.NotBlank;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
@@ -28,4 +32,10 @@ public class Permissao {
 	@NotBlank
 	@Schema(description = "Descrição da permissão",example = "Adidas",required = true)
 	private String descricao;
+	
+	@CreationTimestamp
+	private Timestamp dataCadastro;
+	
+	@UpdateTimestamp
+	private Timestamp dataModificacao;
 }

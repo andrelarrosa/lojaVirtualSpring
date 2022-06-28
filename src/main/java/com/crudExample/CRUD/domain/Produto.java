@@ -1,6 +1,8 @@
 package com.crudExample.CRUD.domain;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,7 +16,9 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.ManyToAny;
+import org.hibernate.annotations.UpdateTimestamp;
 
 
 @Entity
@@ -41,5 +45,11 @@ public class Produto {
 	@ManyToOne
 	@JoinColumn(name="idCategoria")
 	private Categoria categoria;
+	
+	@CreationTimestamp
+	private Timestamp dataCadastro;
+	
+	@UpdateTimestamp
+	private Timestamp dataModificacao;
 	
 }
