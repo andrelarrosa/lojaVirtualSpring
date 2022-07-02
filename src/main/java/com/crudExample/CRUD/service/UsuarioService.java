@@ -85,6 +85,7 @@ public class UsuarioService {
 	public Long count() {
 		return usuarioRepository.count();
 	}
+	
 	public static boolean validarCPF(String CPF) {
 
 		if (CPF.equals("00000000000") ||

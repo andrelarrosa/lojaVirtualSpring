@@ -6,10 +6,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import com.crudExample.CRUD.domain.Historico;
 import com.crudExample.CRUD.domain.Produto;
 import com.crudExample.CRUD.exception.BadResourceException;
 import com.crudExample.CRUD.exception.ResourceAlreadyExistsException;
 import com.crudExample.CRUD.exception.ResourceNotFoundException;
+import com.crudExample.CRUD.repository.HistoricoRepository;
 import com.crudExample.CRUD.repository.ProdutoRepository;
 
 
@@ -18,6 +20,9 @@ public class ProdutoService {
 	
 	@Autowired
 	private ProdutoRepository produtoRepository;
+	
+	@Autowired
+	private HistoricoRepository historicoRepository; 
 	
 	private boolean existsbyId(Long id) {
 		return produtoRepository.existsById(id);
@@ -41,7 +46,15 @@ public class ProdutoService {
 			if(produto.getId() != null && existsbyId(produto.getId())) {
 				throw new ResourceAlreadyExistsException("Produto com o id: "+produto.getId()+"\n já existe");
 			}
-			return produtoRepository.save(produto);
+			Produto produtoNovo = produtoRepository.save(produto);
+
+			Historico historico = new Historico();
+			historico.setProduto(produto);
+			historico.setPrecoVenda(produto.getPrecoVenda());
+			historico.setValorCusto(produto.getValorCusto());
+			historicoRepository.save(historico);
+
+			return produtoNovo;
 		}else {
 			BadResourceException exc = new BadResourceException("Erro ao salvar produto");
 			exc.addErrorMessage("Produto está vazio ou é nulo");
@@ -54,7 +67,15 @@ public class ProdutoService {
 			if(!existsbyId(produto.getId())) {
 				throw new ResourceNotFoundException("Produto não encontrado com o id: "+produto.getId());
 			}
-			produtoRepository.save(produto);
+			
+			if(produto.getPrecoVenda() != produtoRepository.buscarPorId(produto.getId()).getPrecoVenda() || produto.getValorCusto() != produtoRepository.buscarPorId(produto.getId()).getValorCusto()) {
+				produtoRepository.save(produto);
+				Historico historico = new Historico();
+				historico.setProduto(produto);
+				historico.setPrecoVenda(produto.getPrecoVenda());
+				historico.setValorCusto(produto.getValorCusto());
+				historicoRepository.save(historico);
+			}
 		}
 	}
 	

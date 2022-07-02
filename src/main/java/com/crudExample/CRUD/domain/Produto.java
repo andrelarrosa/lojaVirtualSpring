@@ -52,4 +52,5 @@ public class Produto {
 	@UpdateTimestamp
 	private Timestamp dataModificacao;
 	
+	
 }
