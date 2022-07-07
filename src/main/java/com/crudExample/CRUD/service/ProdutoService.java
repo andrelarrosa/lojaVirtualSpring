@@ -1,5 +1,7 @@
 package com.crudExample.CRUD.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -23,6 +25,8 @@ public class ProdutoService {
 	
 	@Autowired
 	private HistoricoRepository historicoRepository; 
+	
+	
 	
 	private boolean existsbyId(Long id) {
 		return produtoRepository.existsById(id);
@@ -75,6 +79,19 @@ public class ProdutoService {
 				historico.setPrecoVenda(produto.getPrecoVenda());
 				historico.setValorCusto(produto.getValorCusto());
 				historicoRepository.save(historico);
+			}
+		}
+	}
+	
+	public void atualizarValorProdutoCategoria(Long idCategoria, Double percentual, String tipoOperacao) {
+		List<Produto> produtos = produtoRepository.buscarProdutosCategoria(idCategoria);
+		for(Produto produto:produtos) {
+			Double novoPrecoVenda = tipoOperacao.equals("-")? (produto.getPrecoVenda()*(percentual/100))-produto.getPrecoVenda() : (produto.getPrecoVenda()*(percentual/100))+produto.getPrecoVenda();
+			produto.setPrecoVenda(novoPrecoVenda);
+			try {
+				update(produto);
+			}catch(Exception e) {
+				System.out.println(e.getMessage());;
 			}
 		}
 	}

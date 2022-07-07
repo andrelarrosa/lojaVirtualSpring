@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -94,5 +95,11 @@ public class ProdutoController {
 			logger.error(ex.getMessage());
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, ex.getMessage(), ex);
 		}
+	}
+	
+	@GetMapping(path = "/produto/atualizarValorCategoria")
+	public ResponseEntity<Void> atualizarValorProdutoCategoria(@RequestParam Double percentual, @RequestParam Long idCategoria, @RequestParam String tipoOperacao){
+		produtoService.atualizarValorProdutoCategoria(idCategoria, percentual, tipoOperacao);
+		return ResponseEntity.ok().build();
 	}
 }
